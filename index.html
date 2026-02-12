@@ -7,15 +7,15 @@
   <style>
     :root {
       --bg: #171a1f;
-      --paper: #fffdf9;
-      --ink: #1e1a16;
-      --muted: #6e655d;
-      --accent: #1f7a8c;
-      --accent-soft: #daf0f4;
-      --line: #e5ddd2;
-      --danger: #b33f2e;
+      --paper: #232933;
+      --ink: #e8edf6;
+      --muted: #a8b2c2;
+      --accent: #5f819d;
+      --accent-soft: rgba(95, 129, 157, 0.28);
+      --line: #394556;
+      --danger: #d9796c;
       --radius: 14px;
-      --shadow: 0 14px 40px rgba(30, 26, 22, 0.09);
+      --shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
     }
 
     * {
@@ -38,7 +38,7 @@
     }
 
     .hero {
-      background: linear-gradient(135deg, #fffaf1, #f1f8fa);
+      background: linear-gradient(135deg, #27303d, #202734);
       border: 1px solid var(--line);
       border-radius: 20px;
       box-shadow: var(--shadow);
@@ -97,13 +97,17 @@
 
     input, textarea {
       width: 100%;
-      border: 1px solid #d4cabd;
+      border: 1px solid #425166;
       border-radius: 10px;
       padding: 10px 12px;
       font: inherit;
       color: var(--ink);
-      background: #fff;
+      background: #1b212b;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #8e9ab0;
     }
 
     input:focus, textarea:focus {
@@ -145,15 +149,15 @@
     }
 
     .btn-muted {
-      background: #efe9de;
-      color: #413932;
-      border-color: #ded2c2;
+      background: #2f3847;
+      color: #d6deeb;
+      border-color: #455367;
     }
 
     .btn-danger {
-      background: #fff4f1;
+      background: #3b2830;
       color: var(--danger);
-      border-color: #efc4bc;
+      border-color: #6d4a53;
     }
 
     .modules {
@@ -163,10 +167,10 @@
     }
 
     .module {
-      border: 1px solid #d7cdc0;
+      border: 1px solid #415064;
       border-radius: 12px;
       padding: 14px;
-      background: #fffdfa;
+      background: #1f2631;
     }
 
     .module-head {
@@ -183,7 +187,7 @@
     }
 
     .feature {
-      border-left: 3px solid #d8cdc0;
+      border-left: 3px solid #4d5d73;
       padding-left: 10px;
       margin-top: 10px;
     }
