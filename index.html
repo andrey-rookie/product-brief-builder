@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Brief Builder</title>
+  <style>
+    :root {
+      --bg: #f5f2ea;
+      --paper: #fffdf9;
+      --ink: #1e1a16;
+      --muted: #6e655d;
+      --accent: #1f7a8c;
+      --accent-soft: #daf0f4;
+      --line: #e5ddd2;
+      --danger: #b33f2e;
+      --radius: 14px;
+      --shadow: 0 14px 40px rgba(30, 26, 22, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Avenir Next", "Montserrat", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(31, 122, 140, 0.18), transparent 40%),
+        radial-gradient(circle at 90% 0%, rgba(179, 63, 46, 0.12), transparent 30%),
+        var(--bg);
+    }
+
+    .container {
+      width: min(1040px, 92vw);
+      margin: 32px auto 80px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #fffaf1, #f1f8fa);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      max-width: 80ch;
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .card h2, .card h3 {
+      margin: 0 0 14px;
+      letter-spacing: -0.01em;
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.wide {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid #d4cabd;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+      outline: none;
+    }
+
+    textarea {
+      min-height: 88px;
+      resize: vertical;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    button {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.08s ease, background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-muted {
+      background: #efe9de;
+      color: #413932;
+      border-color: #ded2c2;
+    }
+
+    .btn-danger {
+      background: #fff4f1;
+      color: var(--danger);
+      border-color: #efc4bc;
+    }
+
+    .modules {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .module {
+      border: 1px solid #d7cdc0;
+      border-radius: 12px;
+      padding: 14px;
+      background: #fffdfa;
+    }
+
+    .module-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .module-head h4 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .feature {
+      border-left: 3px solid #d8cdc0;
+      padding-left: 10px;
+      margin-top: 10px;
+    }
+
+    .feature-controls {
+      margin-top: 6px;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .module-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <h1>Внутренний бриф для IT-продуктов</h1>
+      <p class="subtitle">
+        Заполняй базовые бизнес-вопросы, добавляй модули и функционал, фиксируй сквозные техтребования.
+        В конце экспортируй документ (`.md` + `.json`) и загружай его в ChatGPT/Codex для максимально релевантной разработки.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>1) Бизнес-контекст</h2>
+      <div class="grid">
+        <div class="field">
+          <label for="productName">Название продукта</label>
+          <input id="productName" placeholder="Например: Partner Portal">
+        </div>
+        <div class="field">
+          <label for="owner">Ответственный</label>
+          <input id="owner" placeholder="Имя / команда">
+        </div>
+        <div class="field wide">
+          <label for="problem">Какую проблему решаем</label>
+          <textarea id="problem" placeholder="Что сейчас не работает и почему это важно"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="audience">Целевая аудитория</label>
+          <textarea id="audience" placeholder="Кто пользователь, сегменты, роли"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="goals">Ключевые бизнес-цели / KPI</label>
+          <textarea id="goals" placeholder="Например: снизить CAC, ускорить onboarding, увеличить retention"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="constraints">Ограничения</label>
+          <textarea id="constraints" placeholder="Сроки, бюджет, легаси, compliance"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2) Сквозные технические вводные</h2>
+      <div class="grid">
+        <div class="field wide">
+          <label for="architecture">Архитектурные требования</label>
+          <textarea id="architecture" placeholder="Монолит/микросервисы, API-first, event-driven и т.д."></textarea>
+        </div>
+        <div class="field wide">
+          <label for="integrations">Интеграции и внешние системы</label>
+          <textarea id="integrations" placeholder="CRM, платежи, SSO, аналитика, email-провайдеры"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="crossFunctions">Общие функции над модулями</label>
+          <textarea id="crossFunctions" placeholder="Роли/доступы, логирование, аудит, нотификации, отчеты"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="nonFunctional">Нефункциональные требования</label>
+          <textarea id="nonFunctional" placeholder="SLA/SLO, безопасность, производительность, отказоустойчивость"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3) Модули продукта</h2>
+      <div class="row">
+        <button id="addModule" class="btn-primary" type="button">+ Добавить модуль</button>
+        <button id="saveDraft" class="btn-muted" type="button">Сохранить черновик</button>
+        <button id="loadDraft" class="btn-muted" type="button">Восстановить черновик</button>
+        <button id="clearAll" class="btn-danger" type="button">Очистить форму</button>
+      </div>
+      <p class="status" id="status"></p>
+      <div class="modules" id="modules"></div>
+    </section>
+
+    <section class="card">
+      <h2>4) Экспорт брифа</h2>
+      <p class="subtitle">Экспортируй документ и потом загружай его в ChatGPT/Codex как контекст для разработки.</p>
+      <div class="actions">
+        <button id="exportMd" class="btn-primary" type="button">Скачать .md</button>
+        <button id="exportJson" class="btn-muted" type="button">Скачать .json</button>
+      </div>
+    </section>
+  </div>
+
+  <template id="moduleTemplate">
+    <article class="module">
+      <div class="module-head">
+        <h4>Новый модуль</h4>
+        <button type="button" class="btn-danger module-remove">Удалить модуль</button>
+      </div>
+      <div class="grid">
+        <div class="field">
+          <label>Название модуля</label>
+          <input class="module-title" placeholder="Например: Billing">
+        </div>
+        <div class="field wide">
+          <label>Зачем нужен модуль</label>
+          <textarea class="module-purpose" placeholder="Краткое бизнес-обоснование"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <button type="button" class="btn-muted module-add-feature">+ Добавить функционал</button>
+      </div>
+      <div class="features"></div>
+    </article>
+  </template>
+
+  <template id="featureTemplate">
+    <div class="feature">
+      <div class="field">
+        <label>Функционал</label>
+        <input class="feature-name" placeholder="Например: Подписка, выставление счета">
+      </div>
+      <div class="field">
+        <label>Описание / критерии</label>
+        <textarea class="feature-desc" placeholder="Что именно должно работать"></textarea>
+      </div>
+      <div class="feature-controls">
+        <button type="button" class="btn-danger feature-remove">Удалить функционал</button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const modulesEl = document.getElementById("modules");
+    const statusEl = document.getElementById("status");
+    const draftKey = "product-brief-draft-v1";
+
+    const controls = {
+      productName: document.getElementById("productName"),
+      owner: document.getElementById("owner"),
+      problem: document.getElementById("problem"),
+      audience: document.getElementById("audience"),
+      goals: document.getElementById("goals"),
+      constraints: document.getElementById("constraints"),
+      architecture: document.getElementById("architecture"),
+      integrations: document.getElementById("integrations"),
+      crossFunctions: document.getElementById("crossFunctions"),
+      nonFunctional: document.getElementById("nonFunctional")
+    };
+
+    function setStatus(text) {
+      statusEl.textContent = text;
+    }
+
+    function addFeature(moduleEl, data = {}) {
+      const tpl = document.getElementById("featureTemplate");
+      const feature = tpl.content.firstElementChild.cloneNode(true);
+      feature.querySelector(".feature-name").value = data.name || "";
+      feature.querySelector(".feature-desc").value = data.description || "";
+      feature.querySelector(".feature-remove").addEventListener("click", () => {
+        feature.remove();
+      });
+      moduleEl.querySelector(".features").appendChild(feature);
+    }
+
+    function updateModuleHeadline(moduleEl) {
+      const value = moduleEl.querySelector(".module-title").value.trim();
+      moduleEl.querySelector("h4").textContent = value || "Новый модуль";
+    }
+
+    function addModule(data = {}) {
+      const tpl = document.getElementById("moduleTemplate");
+      const moduleEl = tpl.content.firstElementChild.cloneNode(true);
+      moduleEl.querySelector(".module-title").value = data.title || "";
+      moduleEl.querySelector(".module-purpose").value = data.purpose || "";
+      updateModuleHeadline(moduleEl);
+
+      moduleEl.querySelector(".module-title").addEventListener("input", () => updateModuleHeadline(moduleEl));
+      moduleEl.querySelector(".module-remove").addEventListener("click", () => moduleEl.remove());
+      moduleEl.querySelector(".module-add-feature").addEventListener("click", () => addFeature(moduleEl));
+
+      if (Array.isArray(data.features)) {
+        data.features.forEach((feature) => addFeature(moduleEl, feature));
+      }
+      modulesEl.appendChild(moduleEl);
+    }
+
+    function collectData() {
+      const modules = [...modulesEl.querySelectorAll(".module")].map((moduleEl) => ({
+        title: moduleEl.querySelector(".module-title").value.trim(),
+        purpose: moduleEl.querySelector(".module-purpose").value.trim(),
+        features: [...moduleEl.querySelectorAll(".feature")].map((featureEl) => ({
+          name: featureEl.querySelector(".feature-name").value.trim(),
+          description: featureEl.querySelector(".feature-desc").value.trim()
+        })).filter((f) => f.name || f.description)
+      })).filter((m) => m.title || m.purpose || m.features.length);
+
+      return {
+        meta: {
+          createdAt: new Date().toISOString()
+        },
+        business: {
+          productName: controls.productName.value.trim(),
+          owner: controls.owner.value.trim(),
+          problem: controls.problem.value.trim(),
+          audience: controls.audience.value.trim(),
+          goals: controls.goals.value.trim(),
+          constraints: controls.constraints.value.trim()
+        },
+        technical: {
+          architecture: controls.architecture.value.trim(),
+          integrations: controls.integrations.value.trim(),
+          crossFunctions: controls.crossFunctions.value.trim(),
+          nonFunctional: controls.nonFunctional.value.trim()
+        },
+        modules
+      };
+    }
+
+    function hydrateData(data) {
+      if (!data || typeof data !== "object") return;
+      controls.productName.value = data.business?.productName || "";
+      controls.owner.value = data.business?.owner || "";
+      controls.problem.value = data.business?.problem || "";
+      controls.audience.value = data.business?.audience || "";
+      controls.goals.value = data.business?.goals || "";
+      controls.constraints.value = data.business?.constraints || "";
+      controls.architecture.value = data.technical?.architecture || "";
+      controls.integrations.value = data.technical?.integrations || "";
+      controls.crossFunctions.value = data.technical?.crossFunctions || "";
+      controls.nonFunctional.value = data.technical?.nonFunctional || "";
+
+      modulesEl.innerHTML = "";
+      (data.modules || []).forEach((m) => addModule(m));
+    }
+
+    function saveDraft() {
+      const payload = collectData();
+      localStorage.setItem(draftKey, JSON.stringify(payload));
+      setStatus("Черновик сохранен локально в браузере.");
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem(draftKey);
+      if (!raw) {
+        setStatus("Черновик не найден.");
+        return;
+      }
+      try {
+        const data = JSON.parse(raw);
+        hydrateData(data);
+        setStatus("Черновик восстановлен.");
+      } catch {
+        setStatus("Не удалось прочитать черновик.");
+      }
+    }
+
+    function clearAll() {
+      Object.values(controls).forEach((el) => {
+        el.value = "";
+      });
+      modulesEl.innerHTML = "";
+      setStatus("Форма очищена.");
+    }
+
+    function toMarkdown(data) {
+      const lines = [];
+      lines.push("# Product Brief");
+      lines.push("");
+      lines.push(`Дата генерации: ${new Date(data.meta.createdAt).toLocaleString("ru-RU")}`);
+      lines.push("");
+      lines.push("## 1. Бизнес-контекст");
+      lines.push(`- Название продукта: ${data.business.productName || "-"}`);
+      lines.push(`- Ответственный: ${data.business.owner || "-"}`);
+      lines.push(`- Проблема: ${data.business.problem || "-"}`);
+      lines.push(`- Целевая аудитория: ${data.business.audience || "-"}`);
+      lines.push(`- KPI/цели: ${data.business.goals || "-"}`);
+      lines.push(`- Ограничения: ${data.business.constraints || "-"}`);
+      lines.push("");
+      lines.push("## 2. Сквозные технические вводные");
+      lines.push(`- Архитектурные требования: ${data.technical.architecture || "-"}`);
+      lines.push(`- Интеграции: ${data.technical.integrations || "-"}`);
+      lines.push(`- Общие функции: ${data.technical.crossFunctions || "-"}`);
+      lines.push(`- Нефункциональные требования: ${data.technical.nonFunctional || "-"}`);
+      lines.push("");
+      lines.push("## 3. Модули");
+      if (!data.modules.length) {
+        lines.push("- Модули не добавлены");
+      } else {
+        data.modules.forEach((module, i) => {
+          lines.push(`### ${i + 1}. ${module.title || "Без названия"}`);
+          lines.push(`Назначение: ${module.purpose || "-"}`);
+          lines.push("");
+          lines.push("Функционал:");
+          if (!module.features.length) {
+            lines.push("- Не указан");
+          } else {
+            module.features.forEach((f) => {
+              lines.push(`- ${f.name || "Без названия"}: ${f.description || "-"}`);
+            });
+          }
+          lines.push("");
+        });
+      }
+      return lines.join("\n");
+    }
+
+    function slugify(value) {
+      return (value || "product-brief")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9а-яё]+/gi, "-")
+        .replace(/(^-|-$)/g, "");
+    }
+
+    function download(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("addModule").addEventListener("click", () => addModule());
+    document.getElementById("saveDraft").addEventListener("click", saveDraft);
+    document.getElementById("loadDraft").addEventListener("click", loadDraft);
+    document.getElementById("clearAll").addEventListener("click", clearAll);
+
+    document.getElementById("exportMd").addEventListener("click", () => {
+      const data = collectData();
+      const name = slugify(data.business.productName);
+      download(`${name}.md`, toMarkdown(data), "text/markdown;charset=utf-8");
+      setStatus("Markdown-файл скачан.");
+    });
+
+    document.getElementById("exportJson").addEventListener("click", () => {
+      const data = collectData();
+      const name = slugify(data.business.productName);
+      download(`${name}.json`, JSON.stringify(data, null, 2), "application/json;charset=utf-8");
+      setStatus("JSON-файл скачан.");
+    });
+  </script>
+</body>
+</html>
