@@ -192,6 +192,19 @@
       margin-top: 10px;
     }
 
+    .scenarios {
+      margin-top: 8px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .scenario {
+      border: 1px solid #3f4d61;
+      border-radius: 10px;
+      background: #1a2029;
+      padding: 10px;
+    }
+
     .feature-controls {
       margin-top: 6px;
     }
@@ -339,7 +352,23 @@
         <textarea class="feature-desc" placeholder="Что именно должно работать"></textarea>
       </div>
       <div class="feature-controls">
+        <button type="button" class="btn-muted feature-add-scenario">+ Добавить пользовательский сценарий</button>
+      </div>
+      <div class="scenarios"></div>
+      <div class="feature-controls">
         <button type="button" class="btn-danger feature-remove">Удалить функционал</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="scenarioTemplate">
+    <div class="scenario">
+      <div class="field">
+        <label>Пользовательский сценарий</label>
+        <textarea class="scenario-text" placeholder="Например: Пользователь заходит в модуль, выбирает тариф и подтверждает оплату"></textarea>
+      </div>
+      <div class="feature-controls">
+        <button type="button" class="btn-danger scenario-remove">Удалить сценарий</button>
       </div>
     </div>
   </template>
@@ -366,14 +395,28 @@
       statusEl.textContent = text;
     }
 
+    function addScenario(featureEl, data = {}) {
+      const tpl = document.getElementById("scenarioTemplate");
+      const scenarioEl = tpl.content.firstElementChild.cloneNode(true);
+      scenarioEl.querySelector(".scenario-text").value = data.text || "";
+      scenarioEl.querySelector(".scenario-remove").addEventListener("click", () => {
+        scenarioEl.remove();
+      });
+      featureEl.querySelector(".scenarios").appendChild(scenarioEl);
+    }
+
     function addFeature(moduleEl, data = {}) {
       const tpl = document.getElementById("featureTemplate");
       const feature = tpl.content.firstElementChild.cloneNode(true);
       feature.querySelector(".feature-name").value = data.name || "";
       feature.querySelector(".feature-desc").value = data.description || "";
+      feature.querySelector(".feature-add-scenario").addEventListener("click", () => addScenario(feature));
       feature.querySelector(".feature-remove").addEventListener("click", () => {
         feature.remove();
       });
+      if (Array.isArray(data.scenarios)) {
+        data.scenarios.forEach((scenario) => addScenario(feature, scenario));
+      }
       moduleEl.querySelector(".features").appendChild(feature);
     }
 
@@ -405,8 +448,11 @@
         purpose: moduleEl.querySelector(".module-purpose").value.trim(),
         features: [...moduleEl.querySelectorAll(".feature")].map((featureEl) => ({
           name: featureEl.querySelector(".feature-name").value.trim(),
-          description: featureEl.querySelector(".feature-desc").value.trim()
-        })).filter((f) => f.name || f.description)
+          description: featureEl.querySelector(".feature-desc").value.trim(),
+          scenarios: [...featureEl.querySelectorAll(".scenario")].map((scenarioEl) => ({
+            text: scenarioEl.querySelector(".scenario-text").value.trim()
+          })).filter((s) => s.text)
+        })).filter((f) => f.name || f.description || f.scenarios.length)
       })).filter((m) => m.title || m.purpose || m.features.length);
 
       return {
@@ -511,6 +557,12 @@
           } else {
             module.features.forEach((f) => {
               lines.push(`- ${f.name || "Без названия"}: ${f.description || "-"}`);
+              if (Array.isArray(f.scenarios) && f.scenarios.length) {
+                lines.push("  Пользовательские сценарии:");
+                f.scenarios.forEach((scenario, sIndex) => {
+                  lines.push(`  ${sIndex + 1}) ${scenario.text || "-"}`);
+                });
+              }
             });
           }
           lines.push("");
