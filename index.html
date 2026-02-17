@@ -321,7 +321,51 @@
     </section>
 
     <section class="card">
-      <h2>2) Сквозные технические вводные</h2>
+      <h2>2) Роли и права</h2>
+      <div class="grid">
+        <div class="field wide">
+          <label for="systemRoles">Роли системы</label>
+          <textarea id="systemRoles" placeholder="Admin, Manager, Analyst, User и т.д."></textarea>
+        </div>
+        <div class="field wide">
+          <label for="rolePermissions">Доступы по ролям</label>
+          <textarea id="rolePermissions" placeholder="Какая роль какие модули/действия может выполнять"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="actionRestrictions">Ограничения действий</label>
+          <textarea id="actionRestrictions" placeholder="Что запрещено, лимиты, запреты по состояниям"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="dataOwnership">Ownership данных</label>
+          <textarea id="dataOwnership" placeholder="Кто владелец сущностей и кто может менять/удалять"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3) User Journey (верхний UX-слой)</h2>
+      <div class="grid">
+        <div class="field wide">
+          <label for="entryPoints">Вход в продукт</label>
+          <textarea id="entryPoints" placeholder="Откуда приходит пользователь: лендинг, direct, invite, marketplace"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="onboardingFlow">Onboarding</label>
+          <textarea id="onboardingFlow" placeholder="Первые шаги после входа: регистрация, настройка, импорт данных"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="firstValue">Первая ценность (Time to Value)</label>
+          <textarea id="firstValue" placeholder="Когда пользователь впервые получает заметную пользу"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="returningFlow">Повторный визит</label>
+          <textarea id="returningFlow" placeholder="Зачем пользователь возвращается и что делает регулярно"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4) Сквозные технические вводные</h2>
       <div class="grid">
         <div class="field wide">
           <label for="architecture">Архитектурные требования</label>
@@ -343,7 +387,45 @@
     </section>
 
     <section class="card">
-      <h2>3) Модули продукта</h2>
+      <h2>5) Состояния, события, данные, метрики и экономика</h2>
+      <div class="grid">
+        <div class="field wide">
+          <label for="systemStates">Состояния системы и объектов</label>
+          <textarea id="systemStates" placeholder="Статусы сущностей, FSM-процессы, переходы, rollback"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="eventsTriggers">События и триггеры</label>
+          <textarea id="eventsTriggers" placeholder="Какие события публикуются, кто подписан, какие автоматизации запускаются"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="productMetrics">Продуктовые метрики</label>
+          <textarea id="productMetrics" placeholder="Activation, Retention, Core Action, unit-метрики по модулям"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="economics">Экономика продукта</label>
+          <textarea id="economics" placeholder="Монетизация, pricing, cost drivers, лимиты"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="dataEntities">Ключевые сущности (Entities)</label>
+          <textarea id="dataEntities" placeholder="Перечень сущностей: User, Account, Subscription, Invoice и т.д."></textarea>
+        </div>
+        <div class="field wide">
+          <label for="dataRelations">Связи данных (Relations)</label>
+          <textarea id="dataRelations" placeholder="Ключевые связи между сущностями: один-ко-многим, многие-ко-многим"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="dataConstraints">Ограничения данных (Constraints)</label>
+          <textarea id="dataConstraints" placeholder="Уникальность, обязательные поля, ограничения обновления/удаления, консистентность"></textarea>
+        </div>
+        <div class="field wide">
+          <label for="edgeCases">Edge cases и сбои</label>
+          <textarea id="edgeCases" placeholder="Отказ интеграции, отмена действий, дубликаты, race conditions"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>6) Модули продукта</h2>
       <div class="row">
         <button id="addModule" class="btn-primary" type="button">+ Добавить модуль</button>
         <button id="saveDraft" class="btn-muted" type="button">Сохранить черновик</button>
@@ -355,7 +437,7 @@
     </section>
 
     <section class="card">
-      <h2>4) Экспорт брифа</h2>
+      <h2>7) Экспорт брифа</h2>
       <p class="subtitle">Экспортируй документ и потом загружай его в ChatGPT/Codex как контекст для разработки.</p>
       <div class="actions">
         <button id="exportMd" class="btn-primary" type="button">Скачать .md</button>
@@ -380,8 +462,8 @@
             <input class="module-title" placeholder="Например: Billing">
           </div>
           <div class="field wide">
-            <label>Зачем нужен модуль</label>
-            <textarea class="module-purpose" placeholder="Краткое бизнес-обоснование"></textarea>
+            <label>Ценность модуля</label>
+            <textarea class="module-purpose" placeholder="Какую ценность дает модуль пользователю/бизнесу"></textarea>
           </div>
         </div>
         <div class="row">
@@ -407,8 +489,12 @@
           <input class="feature-name" placeholder="Например: Подписка, выставление счета">
         </div>
         <div class="field">
-          <label>Описание / критерии</label>
-          <textarea class="feature-desc" placeholder="Что именно должно работать"></textarea>
+          <label>Бизнес-результат</label>
+          <textarea class="feature-business" placeholder="Какой конкретный результат дает эта функция"></textarea>
+        </div>
+        <div class="field">
+          <label>Acceptance Criteria</label>
+          <textarea class="feature-criteria" placeholder="- Критерий 1&#10;- Критерий 2&#10;- Критерий 3"></textarea>
         </div>
         <div class="feature-controls">
           <button type="button" class="btn-muted feature-add-scenario">+ Добавить пользовательский сценарий</button>
@@ -429,8 +515,20 @@
       </div>
       <div class="scenario-body">
         <div class="field">
-          <label>Пользовательский сценарий</label>
-          <textarea class="scenario-text" placeholder="Например: Пользователь заходит в модуль, выбирает тариф и подтверждает оплату"></textarea>
+          <label>Actor</label>
+          <input class="scenario-actor" placeholder="Кто выполняет сценарий: пользователь, менеджер, админ">
+        </div>
+        <div class="field">
+          <label>Шаги</label>
+          <textarea class="scenario-steps" placeholder="1) Шаг 1&#10;2) Шаг 2&#10;3) Шаг 3"></textarea>
+        </div>
+        <div class="field">
+          <label>Ожидаемый результат</label>
+          <textarea class="scenario-result" placeholder="Что пользователь получает в конце сценария"></textarea>
+        </div>
+        <div class="field">
+          <label>Альтернативный путь / исключения</label>
+          <textarea class="scenario-alt" placeholder="Что происходит при ошибках, отклонениях или альтернативном выборе"></textarea>
         </div>
       </div>
     </div>
@@ -439,7 +537,7 @@
   <script>
     const modulesEl = document.getElementById("modules");
     const statusEl = document.getElementById("status");
-    const draftKey = "product-brief-draft-v1";
+    const draftKey = "product-brief-draft-v2";
 
     const controls = {
       productName: document.getElementById("productName"),
@@ -448,18 +546,54 @@
       audience: document.getElementById("audience"),
       goals: document.getElementById("goals"),
       constraints: document.getElementById("constraints"),
+      systemRoles: document.getElementById("systemRoles"),
+      rolePermissions: document.getElementById("rolePermissions"),
+      actionRestrictions: document.getElementById("actionRestrictions"),
+      dataOwnership: document.getElementById("dataOwnership"),
+      entryPoints: document.getElementById("entryPoints"),
+      onboardingFlow: document.getElementById("onboardingFlow"),
+      firstValue: document.getElementById("firstValue"),
+      returningFlow: document.getElementById("returningFlow"),
       architecture: document.getElementById("architecture"),
       integrations: document.getElementById("integrations"),
       crossFunctions: document.getElementById("crossFunctions"),
-      nonFunctional: document.getElementById("nonFunctional")
+      nonFunctional: document.getElementById("nonFunctional"),
+      systemStates: document.getElementById("systemStates"),
+      eventsTriggers: document.getElementById("eventsTriggers"),
+      productMetrics: document.getElementById("productMetrics"),
+      economics: document.getElementById("economics"),
+      dataEntities: document.getElementById("dataEntities"),
+      dataRelations: document.getElementById("dataRelations"),
+      dataConstraints: document.getElementById("dataConstraints"),
+      edgeCases: document.getElementById("edgeCases")
     };
 
     function setStatus(text) {
       statusEl.textContent = text;
     }
 
+    function toNumberedList(text) {
+      if (!text) return "";
+      const lines = text.split("\n").map((line) => line.trim()).filter(Boolean);
+      return lines.map((line, index) => {
+        const stripped = line.replace(/^\d+[.)]\s+/, "");
+        return `${index + 1}) ${stripped}`;
+      }).join("\n");
+    }
+
+    function toBulletedList(text) {
+      if (!text) return "";
+      const lines = text.split("\n").map((line) => line.trim()).filter(Boolean);
+      return lines.map((line) => {
+        const stripped = line.replace(/^[-*]\s+/, "");
+        return `- ${stripped}`;
+      }).join("\n");
+    }
+
     function updateScenarioHeadline(scenarioEl) {
-      const raw = scenarioEl.querySelector(".scenario-text").value.trim();
+      const actor = scenarioEl.querySelector(".scenario-actor").value.trim();
+      const result = scenarioEl.querySelector(".scenario-result").value.trim();
+      const raw = [actor, result].filter(Boolean).join(" -> ");
       const oneLine = raw.replace(/\s+/g, " ");
       scenarioEl.querySelector("h6").textContent = oneLine ? oneLine.slice(0, 72) : "Новый сценарий";
     }
@@ -472,9 +606,19 @@
     function addScenario(featureEl, data = {}) {
       const tpl = document.getElementById("scenarioTemplate");
       const scenarioEl = tpl.content.firstElementChild.cloneNode(true);
-      scenarioEl.querySelector(".scenario-text").value = data.text || "";
+      scenarioEl.querySelector(".scenario-actor").value = data.actor || "";
+      scenarioEl.querySelector(".scenario-steps").value = data.steps || data.text || "";
+      scenarioEl.querySelector(".scenario-result").value = data.result || "";
+      scenarioEl.querySelector(".scenario-alt").value = data.alternativePath || "";
       updateScenarioHeadline(scenarioEl);
-      scenarioEl.querySelector(".scenario-text").addEventListener("input", () => updateScenarioHeadline(scenarioEl));
+      scenarioEl.querySelector(".scenario-actor").addEventListener("input", () => updateScenarioHeadline(scenarioEl));
+      scenarioEl.querySelector(".scenario-result").addEventListener("input", () => updateScenarioHeadline(scenarioEl));
+      scenarioEl.querySelector(".scenario-steps").addEventListener("blur", () => {
+        const current = scenarioEl.querySelector(".scenario-steps").value.trim();
+        if (current) {
+          scenarioEl.querySelector(".scenario-steps").value = toNumberedList(current);
+        }
+      });
       scenarioEl.querySelector(".scenario-toggle").addEventListener("click", () => {
         const collapsed = !scenarioEl.classList.contains("collapsed");
         setScenarioCollapsed(scenarioEl, collapsed);
@@ -487,8 +631,10 @@
     }
 
     function updateFeatureHeadline(featureEl) {
-      const value = featureEl.querySelector(".feature-name").value.trim();
-      featureEl.querySelector("h5").textContent = value || "Новый функционал";
+      const name = featureEl.querySelector(".feature-name").value.trim();
+      const business = featureEl.querySelector(".feature-business").value.trim().replace(/\s+/g, " ");
+      const marker = business ? ` -> ${business.slice(0, 28)}` : "";
+      featureEl.querySelector("h5").textContent = (name || "Новый функционал") + marker;
     }
 
     function setFeatureCollapsed(featureEl, collapsed) {
@@ -500,9 +646,17 @@
       const tpl = document.getElementById("featureTemplate");
       const feature = tpl.content.firstElementChild.cloneNode(true);
       feature.querySelector(".feature-name").value = data.name || "";
-      feature.querySelector(".feature-desc").value = data.description || "";
+      feature.querySelector(".feature-business").value = data.businessResult || data.description || "";
+      feature.querySelector(".feature-criteria").value = data.acceptanceCriteria || "";
       updateFeatureHeadline(feature);
       feature.querySelector(".feature-name").addEventListener("input", () => updateFeatureHeadline(feature));
+      feature.querySelector(".feature-business").addEventListener("input", () => updateFeatureHeadline(feature));
+      feature.querySelector(".feature-criteria").addEventListener("blur", () => {
+        const current = feature.querySelector(".feature-criteria").value.trim();
+        if (current) {
+          feature.querySelector(".feature-criteria").value = toBulletedList(current);
+        }
+      });
       feature.querySelector(".feature-toggle").addEventListener("click", () => {
         const collapsed = !feature.classList.contains("collapsed");
         setFeatureCollapsed(feature, collapsed);
@@ -532,7 +686,7 @@
       const tpl = document.getElementById("moduleTemplate");
       const moduleEl = tpl.content.firstElementChild.cloneNode(true);
       moduleEl.querySelector(".module-title").value = data.title || "";
-      moduleEl.querySelector(".module-purpose").value = data.purpose || "";
+      moduleEl.querySelector(".module-purpose").value = data.value || data.purpose || "";
       updateModuleHeadline(moduleEl);
 
       moduleEl.querySelector(".module-title").addEventListener("input", () => updateModuleHeadline(moduleEl));
@@ -553,18 +707,22 @@
     function collectData() {
       const modules = [...modulesEl.querySelectorAll(".module")].map((moduleEl) => ({
         title: moduleEl.querySelector(".module-title").value.trim(),
-        purpose: moduleEl.querySelector(".module-purpose").value.trim(),
+        value: moduleEl.querySelector(".module-purpose").value.trim(),
         collapsed: moduleEl.classList.contains("collapsed"),
         features: [...moduleEl.querySelectorAll(".feature")].map((featureEl) => ({
           name: featureEl.querySelector(".feature-name").value.trim(),
-          description: featureEl.querySelector(".feature-desc").value.trim(),
+          businessResult: featureEl.querySelector(".feature-business").value.trim(),
+          acceptanceCriteria: featureEl.querySelector(".feature-criteria").value.trim(),
           collapsed: featureEl.classList.contains("collapsed"),
           scenarios: [...featureEl.querySelectorAll(".scenario")].map((scenarioEl) => ({
-            text: scenarioEl.querySelector(".scenario-text").value.trim(),
+            actor: scenarioEl.querySelector(".scenario-actor").value.trim(),
+            steps: scenarioEl.querySelector(".scenario-steps").value.trim(),
+            result: scenarioEl.querySelector(".scenario-result").value.trim(),
+            alternativePath: scenarioEl.querySelector(".scenario-alt").value.trim(),
             collapsed: scenarioEl.classList.contains("collapsed")
-          })).filter((s) => s.text)
-        })).filter((f) => f.name || f.description || f.scenarios.length)
-      })).filter((m) => m.title || m.purpose || m.features.length);
+          })).filter((s) => s.actor || s.steps || s.result || s.alternativePath)
+        })).filter((f) => f.name || f.businessResult || f.acceptanceCriteria || f.scenarios.length)
+      })).filter((m) => m.title || m.value || m.features.length);
 
       return {
         meta: {
@@ -578,11 +736,33 @@
           goals: controls.goals.value.trim(),
           constraints: controls.constraints.value.trim()
         },
+        rolesAccess: {
+          systemRoles: controls.systemRoles.value.trim(),
+          rolePermissions: controls.rolePermissions.value.trim(),
+          actionRestrictions: controls.actionRestrictions.value.trim(),
+          dataOwnership: controls.dataOwnership.value.trim()
+        },
+        userJourney: {
+          entryPoints: controls.entryPoints.value.trim(),
+          onboardingFlow: controls.onboardingFlow.value.trim(),
+          firstValue: controls.firstValue.value.trim(),
+          returningFlow: controls.returningFlow.value.trim()
+        },
         technical: {
           architecture: controls.architecture.value.trim(),
           integrations: controls.integrations.value.trim(),
           crossFunctions: controls.crossFunctions.value.trim(),
           nonFunctional: controls.nonFunctional.value.trim()
+        },
+        productSystem: {
+          systemStates: controls.systemStates.value.trim(),
+          eventsTriggers: controls.eventsTriggers.value.trim(),
+          productMetrics: controls.productMetrics.value.trim(),
+          economics: controls.economics.value.trim(),
+          dataEntities: controls.dataEntities.value.trim(),
+          dataRelations: controls.dataRelations.value.trim(),
+          dataConstraints: controls.dataConstraints.value.trim(),
+          edgeCases: controls.edgeCases.value.trim()
         },
         modules
       };
@@ -596,10 +776,26 @@
       controls.audience.value = data.business?.audience || "";
       controls.goals.value = data.business?.goals || "";
       controls.constraints.value = data.business?.constraints || "";
+      controls.systemRoles.value = data.rolesAccess?.systemRoles || "";
+      controls.rolePermissions.value = data.rolesAccess?.rolePermissions || "";
+      controls.actionRestrictions.value = data.rolesAccess?.actionRestrictions || "";
+      controls.dataOwnership.value = data.rolesAccess?.dataOwnership || "";
+      controls.entryPoints.value = data.userJourney?.entryPoints || "";
+      controls.onboardingFlow.value = data.userJourney?.onboardingFlow || "";
+      controls.firstValue.value = data.userJourney?.firstValue || "";
+      controls.returningFlow.value = data.userJourney?.returningFlow || "";
       controls.architecture.value = data.technical?.architecture || "";
       controls.integrations.value = data.technical?.integrations || "";
       controls.crossFunctions.value = data.technical?.crossFunctions || "";
       controls.nonFunctional.value = data.technical?.nonFunctional || "";
+      controls.systemStates.value = data.productSystem?.systemStates || "";
+      controls.eventsTriggers.value = data.productSystem?.eventsTriggers || "";
+      controls.productMetrics.value = data.productSystem?.productMetrics || "";
+      controls.economics.value = data.productSystem?.economics || "";
+      controls.dataEntities.value = data.productSystem?.dataEntities || data.productSystem?.dataModel || "";
+      controls.dataRelations.value = data.productSystem?.dataRelations || "";
+      controls.dataConstraints.value = data.productSystem?.dataConstraints || "";
+      controls.edgeCases.value = data.productSystem?.edgeCases || "";
 
       modulesEl.innerHTML = "";
       (data.modules || []).forEach((m) => addModule(m));
@@ -648,30 +844,57 @@
       lines.push(`- KPI/цели: ${data.business.goals || "-"}`);
       lines.push(`- Ограничения: ${data.business.constraints || "-"}`);
       lines.push("");
-      lines.push("## 2. Сквозные технические вводные");
+      lines.push("## 2. Роли и права");
+      lines.push(`- Роли системы: ${data.rolesAccess?.systemRoles || "-"}`);
+      lines.push(`- Доступы по ролям: ${data.rolesAccess?.rolePermissions || "-"}`);
+      lines.push(`- Ограничения действий: ${data.rolesAccess?.actionRestrictions || "-"}`);
+      lines.push(`- Ownership данных: ${data.rolesAccess?.dataOwnership || "-"}`);
+      lines.push("");
+      lines.push("## 3. User Journey");
+      lines.push(`- Вход в продукт: ${data.userJourney?.entryPoints || "-"}`);
+      lines.push(`- Onboarding: ${data.userJourney?.onboardingFlow || "-"}`);
+      lines.push(`- Первая ценность: ${data.userJourney?.firstValue || "-"}`);
+      lines.push(`- Повторный визит: ${data.userJourney?.returningFlow || "-"}`);
+      lines.push("");
+      lines.push("## 4. Сквозные технические вводные");
       lines.push(`- Архитектурные требования: ${data.technical.architecture || "-"}`);
       lines.push(`- Интеграции: ${data.technical.integrations || "-"}`);
       lines.push(`- Общие функции: ${data.technical.crossFunctions || "-"}`);
       lines.push(`- Нефункциональные требования: ${data.technical.nonFunctional || "-"}`);
       lines.push("");
-      lines.push("## 3. Модули");
+      lines.push("## 5. Состояния, события, данные, метрики, экономика");
+      lines.push(`- Состояния системы/FSM: ${data.productSystem?.systemStates || "-"}`);
+      lines.push(`- События и триггеры: ${data.productSystem?.eventsTriggers || "-"}`);
+      lines.push(`- Продуктовые метрики: ${data.productSystem?.productMetrics || "-"}`);
+      lines.push(`- Экономика: ${data.productSystem?.economics || "-"}`);
+      lines.push(`- Сущности данных: ${data.productSystem?.dataEntities || data.productSystem?.dataModel || "-"}`);
+      lines.push(`- Связи данных: ${data.productSystem?.dataRelations || "-"}`);
+      lines.push(`- Ограничения данных: ${data.productSystem?.dataConstraints || "-"}`);
+      lines.push(`- Edge cases: ${data.productSystem?.edgeCases || "-"}`);
+      lines.push("");
+      lines.push("## 6. Модули");
       if (!data.modules.length) {
         lines.push("- Модули не добавлены");
       } else {
         data.modules.forEach((module, i) => {
           lines.push(`### ${i + 1}. ${module.title || "Без названия"}`);
-          lines.push(`Назначение: ${module.purpose || "-"}`);
+          lines.push(`Ценность модуля: ${module.value || "-"}`);
           lines.push("");
           lines.push("Функционал:");
           if (!module.features.length) {
             lines.push("- Не указан");
           } else {
             module.features.forEach((f) => {
-              lines.push(`- ${f.name || "Без названия"}: ${f.description || "-"}`);
+              lines.push(`- ${f.name || "Без названия"}`);
+              lines.push(`  Бизнес-результат: ${f.businessResult || f.description || "-"}`);
+              lines.push(`  Acceptance Criteria: ${f.acceptanceCriteria || "-"}`);
               if (Array.isArray(f.scenarios) && f.scenarios.length) {
                 lines.push("  Пользовательские сценарии:");
                 f.scenarios.forEach((scenario, sIndex) => {
-                  lines.push(`  ${sIndex + 1}) ${scenario.text || "-"}`);
+                  lines.push(`  ${sIndex + 1}) Actor: ${scenario.actor || "-"}`);
+                  lines.push(`     Шаги: ${scenario.steps || scenario.text || "-"}`);
+                  lines.push(`     Результат: ${scenario.result || "-"}`);
+                  lines.push(`     Альтернативный путь: ${scenario.alternativePath || "-"}`);
                 });
               }
             });
