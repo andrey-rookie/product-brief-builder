@@ -186,10 +186,56 @@
       font-size: 1rem;
     }
 
+    .module-head-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .module.collapsed .module-body {
+      display: none;
+    }
+
+    .module.collapsed {
+      padding-bottom: 10px;
+    }
+
     .feature {
       border-left: 3px solid #4d5d73;
       padding-left: 10px;
       margin-top: 10px;
+    }
+
+    .feature-head, .scenario-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .feature-head h5, .scenario-head h6 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 0.96rem;
+      font-weight: 700;
+    }
+
+    .feature-head-actions, .scenario-head-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .feature.collapsed .feature-body {
+      display: none;
+    }
+
+    .scenario.collapsed .scenario-body {
+      display: none;
     }
 
     .scenarios {
@@ -322,53 +368,70 @@
     <article class="module">
       <div class="module-head">
         <h4>Новый модуль</h4>
-        <button type="button" class="btn-danger module-remove">Удалить модуль</button>
-      </div>
-      <div class="grid">
-        <div class="field">
-          <label>Название модуля</label>
-          <input class="module-title" placeholder="Например: Billing">
-        </div>
-        <div class="field wide">
-          <label>Зачем нужен модуль</label>
-          <textarea class="module-purpose" placeholder="Краткое бизнес-обоснование"></textarea>
+        <div class="module-head-actions">
+          <button type="button" class="btn-muted module-toggle">Свернуть модуль</button>
+          <button type="button" class="btn-danger module-remove">Удалить модуль</button>
         </div>
       </div>
-      <div class="row">
-        <button type="button" class="btn-muted module-add-feature">+ Добавить функционал</button>
+      <div class="module-body">
+        <div class="grid">
+          <div class="field">
+            <label>Название модуля</label>
+            <input class="module-title" placeholder="Например: Billing">
+          </div>
+          <div class="field wide">
+            <label>Зачем нужен модуль</label>
+            <textarea class="module-purpose" placeholder="Краткое бизнес-обоснование"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <button type="button" class="btn-muted module-add-feature">+ Добавить функционал</button>
+        </div>
+        <div class="features"></div>
       </div>
-      <div class="features"></div>
     </article>
   </template>
 
   <template id="featureTemplate">
     <div class="feature">
-      <div class="field">
-        <label>Функционал</label>
-        <input class="feature-name" placeholder="Например: Подписка, выставление счета">
+      <div class="feature-head">
+        <h5>Новый функционал</h5>
+        <div class="feature-head-actions">
+          <button type="button" class="btn-muted feature-toggle">Свернуть функционал</button>
+          <button type="button" class="btn-danger feature-remove">Удалить функционал</button>
+        </div>
       </div>
-      <div class="field">
-        <label>Описание / критерии</label>
-        <textarea class="feature-desc" placeholder="Что именно должно работать"></textarea>
-      </div>
-      <div class="feature-controls">
-        <button type="button" class="btn-muted feature-add-scenario">+ Добавить пользовательский сценарий</button>
-      </div>
-      <div class="scenarios"></div>
-      <div class="feature-controls">
-        <button type="button" class="btn-danger feature-remove">Удалить функционал</button>
+      <div class="feature-body">
+        <div class="field">
+          <label>Функционал</label>
+          <input class="feature-name" placeholder="Например: Подписка, выставление счета">
+        </div>
+        <div class="field">
+          <label>Описание / критерии</label>
+          <textarea class="feature-desc" placeholder="Что именно должно работать"></textarea>
+        </div>
+        <div class="feature-controls">
+          <button type="button" class="btn-muted feature-add-scenario">+ Добавить пользовательский сценарий</button>
+        </div>
+        <div class="scenarios"></div>
       </div>
     </div>
   </template>
 
   <template id="scenarioTemplate">
     <div class="scenario">
-      <div class="field">
-        <label>Пользовательский сценарий</label>
-        <textarea class="scenario-text" placeholder="Например: Пользователь заходит в модуль, выбирает тариф и подтверждает оплату"></textarea>
+      <div class="scenario-head">
+        <h6>Новый сценарий</h6>
+        <div class="scenario-head-actions">
+          <button type="button" class="btn-muted scenario-toggle">Свернуть сценарий</button>
+          <button type="button" class="btn-danger scenario-remove">Удалить сценарий</button>
+        </div>
       </div>
-      <div class="feature-controls">
-        <button type="button" class="btn-danger scenario-remove">Удалить сценарий</button>
+      <div class="scenario-body">
+        <div class="field">
+          <label>Пользовательский сценарий</label>
+          <textarea class="scenario-text" placeholder="Например: Пользователь заходит в модуль, выбирает тариф и подтверждает оплату"></textarea>
+        </div>
       </div>
     </div>
   </template>
@@ -395,14 +458,42 @@
       statusEl.textContent = text;
     }
 
+    function updateScenarioHeadline(scenarioEl) {
+      const raw = scenarioEl.querySelector(".scenario-text").value.trim();
+      const oneLine = raw.replace(/\s+/g, " ");
+      scenarioEl.querySelector("h6").textContent = oneLine ? oneLine.slice(0, 72) : "Новый сценарий";
+    }
+
+    function setScenarioCollapsed(scenarioEl, collapsed) {
+      scenarioEl.classList.toggle("collapsed", collapsed);
+      scenarioEl.querySelector(".scenario-toggle").textContent = collapsed ? "Развернуть сценарий" : "Свернуть сценарий";
+    }
+
     function addScenario(featureEl, data = {}) {
       const tpl = document.getElementById("scenarioTemplate");
       const scenarioEl = tpl.content.firstElementChild.cloneNode(true);
       scenarioEl.querySelector(".scenario-text").value = data.text || "";
+      updateScenarioHeadline(scenarioEl);
+      scenarioEl.querySelector(".scenario-text").addEventListener("input", () => updateScenarioHeadline(scenarioEl));
+      scenarioEl.querySelector(".scenario-toggle").addEventListener("click", () => {
+        const collapsed = !scenarioEl.classList.contains("collapsed");
+        setScenarioCollapsed(scenarioEl, collapsed);
+      });
       scenarioEl.querySelector(".scenario-remove").addEventListener("click", () => {
         scenarioEl.remove();
       });
+      setScenarioCollapsed(scenarioEl, Boolean(data.collapsed));
       featureEl.querySelector(".scenarios").appendChild(scenarioEl);
+    }
+
+    function updateFeatureHeadline(featureEl) {
+      const value = featureEl.querySelector(".feature-name").value.trim();
+      featureEl.querySelector("h5").textContent = value || "Новый функционал";
+    }
+
+    function setFeatureCollapsed(featureEl, collapsed) {
+      featureEl.classList.toggle("collapsed", collapsed);
+      featureEl.querySelector(".feature-toggle").textContent = collapsed ? "Развернуть функционал" : "Свернуть функционал";
     }
 
     function addFeature(moduleEl, data = {}) {
@@ -410,6 +501,12 @@
       const feature = tpl.content.firstElementChild.cloneNode(true);
       feature.querySelector(".feature-name").value = data.name || "";
       feature.querySelector(".feature-desc").value = data.description || "";
+      updateFeatureHeadline(feature);
+      feature.querySelector(".feature-name").addEventListener("input", () => updateFeatureHeadline(feature));
+      feature.querySelector(".feature-toggle").addEventListener("click", () => {
+        const collapsed = !feature.classList.contains("collapsed");
+        setFeatureCollapsed(feature, collapsed);
+      });
       feature.querySelector(".feature-add-scenario").addEventListener("click", () => addScenario(feature));
       feature.querySelector(".feature-remove").addEventListener("click", () => {
         feature.remove();
@@ -417,12 +514,18 @@
       if (Array.isArray(data.scenarios)) {
         data.scenarios.forEach((scenario) => addScenario(feature, scenario));
       }
+      setFeatureCollapsed(feature, Boolean(data.collapsed));
       moduleEl.querySelector(".features").appendChild(feature);
     }
 
     function updateModuleHeadline(moduleEl) {
       const value = moduleEl.querySelector(".module-title").value.trim();
       moduleEl.querySelector("h4").textContent = value || "Новый модуль";
+    }
+
+    function setModuleCollapsed(moduleEl, collapsed) {
+      moduleEl.classList.toggle("collapsed", collapsed);
+      moduleEl.querySelector(".module-toggle").textContent = collapsed ? "Развернуть модуль" : "Свернуть модуль";
     }
 
     function addModule(data = {}) {
@@ -433,12 +536,17 @@
       updateModuleHeadline(moduleEl);
 
       moduleEl.querySelector(".module-title").addEventListener("input", () => updateModuleHeadline(moduleEl));
+      moduleEl.querySelector(".module-toggle").addEventListener("click", () => {
+        const collapsed = !moduleEl.classList.contains("collapsed");
+        setModuleCollapsed(moduleEl, collapsed);
+      });
       moduleEl.querySelector(".module-remove").addEventListener("click", () => moduleEl.remove());
       moduleEl.querySelector(".module-add-feature").addEventListener("click", () => addFeature(moduleEl));
 
       if (Array.isArray(data.features)) {
         data.features.forEach((feature) => addFeature(moduleEl, feature));
       }
+      setModuleCollapsed(moduleEl, Boolean(data.collapsed));
       modulesEl.appendChild(moduleEl);
     }
 
@@ -446,11 +554,14 @@
       const modules = [...modulesEl.querySelectorAll(".module")].map((moduleEl) => ({
         title: moduleEl.querySelector(".module-title").value.trim(),
         purpose: moduleEl.querySelector(".module-purpose").value.trim(),
+        collapsed: moduleEl.classList.contains("collapsed"),
         features: [...moduleEl.querySelectorAll(".feature")].map((featureEl) => ({
           name: featureEl.querySelector(".feature-name").value.trim(),
           description: featureEl.querySelector(".feature-desc").value.trim(),
+          collapsed: featureEl.classList.contains("collapsed"),
           scenarios: [...featureEl.querySelectorAll(".scenario")].map((scenarioEl) => ({
-            text: scenarioEl.querySelector(".scenario-text").value.trim()
+            text: scenarioEl.querySelector(".scenario-text").value.trim(),
+            collapsed: scenarioEl.classList.contains("collapsed")
           })).filter((s) => s.text)
         })).filter((f) => f.name || f.description || f.scenarios.length)
       })).filter((m) => m.title || m.purpose || m.features.length);
